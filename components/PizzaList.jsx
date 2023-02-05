@@ -1,10 +1,16 @@
+import {
+  ArrowRightCircleIcon,
+  ArrowRightIcon,
+} from "@heroicons/react/24/outline";
+import { useRouter } from "next/router";
 import React from "react";
 import PizzaCard from "./PizzaCard";
 
 function PizzaList({ pizzas }) {
-  // console.log(pizzas);
+  const router = useRouter();
+
   return (
-    <div className="flex flex-col max-w-7xl  mx-auto p-2 space-y-10 mt-5">
+    <div className="flex flex-col max-w-7xl  mx-auto p-2 gap-5 mt-5">
       {/* top */}
       <div className="flex flex-col space-y-3 items-center font-serif  ">
         <h3 className="font-semibold text-xl lg:text-3xl">
@@ -17,11 +23,22 @@ function PizzaList({ pizzas }) {
         </p>
       </div>
 
+      <div
+        onClick={() => router.push("/products")}
+        className="flex items-center justify-end text-gray-400 gap-2 font-serif hover:text-blue-900"
+      >
+        <button>See More</button>
+        <ArrowRightIcon className="w-5 h-5" />
+      </div>
+
       {/* bottom */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 pb-10">
-        {pizzas.slice(0, 7).map((pizza) => (
-          <PizzaCard key={pizza._id} pizza={pizza} />
-        ))}
+      <div className="px-20 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 pb-10">
+        {pizzas
+          .slice(0, 7)
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+          .map((pizza) => (
+            <PizzaCard key={pizza._id} pizza={pizza} />
+          ))}
       </div>
     </div>
   );

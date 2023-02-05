@@ -17,7 +17,7 @@ function Navbar() {
   };
   return (
     <nav className="z-20 w-full h-[70px] md:h-24 bg-red-600 sticky top-0  ">
-      <div className="max-w-7xl h-full mx-auto flex items-center   px-2 ">
+      <div className="max-w-7xl h-full mx-auto flex items-center justify-between  px-2 ">
         {/* left */}
         <div className="flex items-center space-x-3">
           <div className="hidden md:inline-flex w-16 h-16 rounded-full items-center justify-center bg-white">
@@ -30,7 +30,7 @@ function Navbar() {
         </div>
 
         {/* middle */}
-        <ul className="flex flex-grow pl-3 lg:ml-32 items-center space-x-3 lg:space-x-5 text-white text-xl  font-serif">
+        <ul className="flex  pl-3  items-center space-x-3 lg:space-x-5 text-white text-xl  font-serif">
           <li
             onClick={() => router.push("/")}
             className={`hover:underline underline-offset-4 cursor-pointer hover:scale-105 transform duration-150 ease-out ${
@@ -39,25 +39,28 @@ function Navbar() {
           >
             HomePage
           </li>
-          <li className="hover:underline underline-offset-4 cursor-pointer hover:scale-105 transform duration-150 ease-out hidden md:inline">
+          <li
+            onClick={() => router.push("/products")}
+            className={`hover:underline underline-offset-4 cursor-pointer hover:scale-105 transform duration-150 ease-out ${
+              routerPathMatch("/products") &&
+              "underline underline-offset-8 font-bold"
+            }`}
+          >
             Products
           </li>
-          <li className="hover:underline underline-offset-4 cursor-pointer hover:scale-105 transform duration-150 ease-out hidden md:inline">
-            Menu
-          </li>
+
           <Image
             src={logo}
             className="rounded-full hidden lg:inline p-2"
             alt="logo"
             width={95}
             height={95}
+            onClick={() => router.push("/")}
           />
           <li className="hover:underline underline-offset-4 cursor-pointer hover:scale-105 transform duration-150 ease-out hidden md:inline">
             Events
           </li>
-          <li className="hover:underline underline-offset-4 cursor-pointer hover:scale-105 transform duration-150 ease-out hidden md:inline">
-            Blog
-          </li>
+
           <li className="hover:underline underline-offset-4 cursor-pointer hover:scale-105 transform duration-150 ease-out hidden md:inline">
             Contact
           </li>

@@ -1,20 +1,43 @@
-import React, { useState } from "react";
-import Modal from "react-modal";
+import React, { useEffect, useState } from "react";
 import { PlusCircleIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { data } from "autoprefixer";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 
 function AddProduct({ id, EditMode }) {
-  //   console.log(id);
-  const [file, setFile] = useState(null);
+  const [EditPizza, setEditPizza] = useState();
   const [title, setTitle] = useState("");
+
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState([]);
   const [extraOptions, setExtraOptions] = useState([]);
+  const [file, setFile] = useState(null);
   const [extra, setExtra] = useState(null);
   const router = useRouter();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (id) {
+        await axios
+          .get(process.env.base_url + `/api/products/${id}`)
+          .then((res) => {
+            // console.log(res.data);
+            setEditPizza(res.data);
+            setTitle(res.data.title);
+            setDescription(res.data.description);
+            setPrice(res.data.price);
+
+            setExtraOptions(res.data.extraOptions);
+          });
+      }
+    };
+    fetchData();
+  }, [id, EditMode]);
+
+  //   console.log(EditPizza);
+  //   console.log(id);
+
+  //   console.log(extraOptions);
 
   const changePrice = (e, index) => {
     const currentPrices = price;
@@ -58,9 +81,18 @@ function AddProduct({ id, EditMode }) {
         ProductImg: url,
       };
 
-      await axios.post(process.env.base_url + "/api/products", newProduct);
-      toast.success("New Product Added Successfully");
-      router.push("/admin");
+      if (EditMode) {
+        await axios.put(
+          process.env.base_url + `/api/products/${id}`,
+          newProduct
+        );
+        toast.success("New Product Updated Successfully");
+      } else {
+        await axios.post(process.env.base_url + "/api/products", newProduct);
+        toast.success("New Product Added Successfully");
+      }
+
+      //   router.push("/admin");
     } catch (error) {
       toast.error("Something went wrong");
       console.log(error);
@@ -95,11 +127,25 @@ function AddProduct({ id, EditMode }) {
                 onChange={(e) => setFile(e.target.files[0])}
               />
               <label htmlFor="file">
-                <PlusCircleIcon className="w-7 h-7  hover:text-red-500" />
+                <PlusCircleIcon className="w-7 h-7 cursor-pointer  hover:text-red-500" />
               </label>
-              <div className="w-20 h-20 rounded-lg border">
-                {file && <img src={URL.createObjectURL(file)} alt="" />}
-              </div>
+              {/* For Update */}
+              {EditMode && (
+                <div className="w-20 h-20 shadow-md rounded-lg border">
+                  {file ? (
+                    <img src={URL.createObjectURL(file)} alt="" />
+                  ) : (
+                    <img src={EditPizza?.ProductImg} alt="" />
+                  )}
+                </div>
+              )}
+
+              {/* For Add New Product */}
+              {!EditMode && (
+                <div className="w-20 h-20 shadow-md rounded-lg border">
+                  {file && <img src={URL.createObjectURL(file)} alt="" />}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -113,7 +159,7 @@ function AddProduct({ id, EditMode }) {
             type="text"
             name="name"
             placeholder="Title"
-            className="w-full p-1 outline-none md:p-2 rounded-md text-sm"
+            className="w-full p-1 shadow-sm focus-within:shadow-md outline-none md:p-2 rounded-md text-sm"
           />
         </div>
 
@@ -124,7 +170,7 @@ function AddProduct({ id, EditMode }) {
             onChange={(e) => setDescription(e.target.value)}
             type="text"
             placeholder="Description"
-            className="w-full p-1 outline-none md:p-2 rounded-md text-sm"
+            className="w-full p-1 outline-none shadow-sm focus-within:shadow-md md:p-2 rounded-md text-sm"
           />
         </div>
 
@@ -134,20 +180,23 @@ function AddProduct({ id, EditMode }) {
             <input
               onChange={(e) => changePrice(e, 0)}
               type="number"
+              defaultValue={price[0]}
               placeholder="Small"
-              className="w-[22%] p-2 rounded-lg shadow-sm"
+              className="w-[22%] p-2 rounded-lg shadow-sm outline-none focus-within:shadow-md"
             />
             <input
               onChange={(e) => changePrice(e, 1)}
               type="number"
+              defaultValue={price[1]}
               placeholder="Median"
-              className="w-[22%] p-2 rounded-lg shadow-sm"
+              className="w-[22%] p-2 rounded-lg shadow-sm outline-none focus-within:shadow-md"
             />
             <input
               onChange={(e) => changePrice(e, 2)}
               type="number"
+              defaultValue={price[2]}
               placeholder="Large"
-              className="w-[22%] p-2 rounded-lg shadow-sm"
+              className="w-[22%] p-2 rounded-lg shadow-sm outline-none focus-within:shadow-md"
             />
           </div>
         </div>
@@ -159,7 +208,7 @@ function AddProduct({ id, EditMode }) {
               <select
                 onClick={(e) => handleExtraInput(e)}
                 name="text"
-                className="w-full px-2 py-[9px] rounded-lg"
+                className="w-full px-2 py-[9px] rounded-lg shadow-sm outline-none "
               >
                 <option>Garlic Sauce</option>
                 <option>Spicy Sauce</option>
@@ -171,7 +220,7 @@ function AddProduct({ id, EditMode }) {
                 placeholder="Price"
                 onChange={(e) => handleExtraInput(e)}
                 // defaultValue={1}
-                className="w-20 p-2 rounded-lg shadow-sm "
+                className="w-20 p-2 rounded-lg shadow-sm outline-none focus-within:shadow-md"
               />
 
               <button
@@ -211,7 +260,7 @@ function AddProduct({ id, EditMode }) {
             type="submit"
             className="p-2  bg-green-500 w-full rounded-lg shadow-md hover:bg-green-400 active:bg-green-300"
           >
-            Create
+            {EditMode ? "Update" : "Create"}
           </button>
           <button
             onClick={handleDiscard}
@@ -226,3 +275,25 @@ function AddProduct({ id, EditMode }) {
 }
 
 export default AddProduct;
+
+// export const getServerSideProps = async (ctx) => {
+//   const myCookie = ctx.req?.cookies || "";
+
+//   if (myCookie.token !== process.env.TOKEN) {
+//     return {
+//       redirect: {
+//         destination: "/admin/login",
+//         permanent: false,
+//       },
+//     };
+//   }
+//   const productRes = await axios.get(process.env.NEXT_URL + "/api/products");
+//   const orderRes = await axios.get(process.env.NEXT_URL + "/api/orders");
+
+//   return {
+//     props: {
+//       orders: orderRes.data,
+//       products: productRes.data,
+//     },
+//   };
+// };

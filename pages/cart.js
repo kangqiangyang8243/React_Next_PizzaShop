@@ -108,7 +108,7 @@ function Cart() {
       customer: customer,
       address: address,
       total: cart.total,
-      paymentMethods: 1,
+      paymentMethods: 0,
     });
     setCash(false);
   };
@@ -123,7 +123,7 @@ function Cart() {
           </h3>
 
           <div>
-            <table className="w-full border-separate border-spacing-2 table-fixed  text-center text-xs md:text-lg">
+            <table className="w-full e  table-fixed  text-center text-xs md:text-lg">
               <tbody>
                 <tr>
                   <th>Product</th>
@@ -135,13 +135,13 @@ function Cart() {
                 </tr>
               </tbody>
 
-              <tbody>
+              <tbody className="hover:bg-gray-100">
                 {cart.products.map((product, index) => (
                   <tr
                     key={index}
                     onMouseEnter={() => setXClose(true)}
                     onMouseLeave={() => setXClose(false)}
-                    className={`shadow-md hover:bg-gray-100 hover:shadow-lg cursor-pointer duration-150  transform ease-linear rounded-md`}
+                    className={`shadow-md  hover:shadow-lg cursor-pointer duration-150  transform ease-linear rounded-md`}
                   >
                     <td className="flex items-center justify-center">
                       <div className="relative">
@@ -250,7 +250,7 @@ function Cart() {
               onClick={() => {
                 setCash(false);
               }}
-              className="w-6 h-6 m-2 cursor-pointer"
+              className="w-6 h-6 m-2 hover:text-red-500 cursor-pointer"
             />
           </div>
           <div className="flex flex-col items-center font-serif gap-2 w-full h-full">
@@ -270,7 +270,7 @@ function Cart() {
                   type="text"
                   name="name"
                   placeholder="Name"
-                  className="w-full p-1 outline-none md:p-2 rounded-md text-sm"
+                  className="w-full p-1 shadow-sm focus-within:shadow-md outline-none md:p-2 rounded-md text-sm"
                 />
               </div>
 
@@ -279,7 +279,7 @@ function Cart() {
                 <input
                   type="text"
                   placeholder="Phone number.."
-                  className="w-full p-1 outline-none md:p-2 rounded-md text-sm"
+                  className="w-full p-1 outline-none shadow-sm focus-within:shadow-md md:p-2 rounded-md text-sm"
                 />
               </div>
 
@@ -290,7 +290,7 @@ function Cart() {
                   onChange={(e) => setaddress(e.target.value)}
                   type="text"
                   placeholder="Address"
-                  className="w-full p-1 outline-none md:p-2 rounded-md text-sm"
+                  className="w-full p-1 outline-none shadow-sm focus-within:shadow-md md:p-2 rounded-md text-sm"
                 />
               </div>
 

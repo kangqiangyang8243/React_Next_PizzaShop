@@ -32,7 +32,10 @@ export default async function handler(req, res) {
       res.status(401).json("Not authenticated!");
     }
     try {
-      const product = await Product.create(req.body);
+      const product = await Product.findByIdAndUpdate(id, req.body, {
+        new: true,
+      });
+
       res.status(201).json(product);
     } catch (error) {
       res.status(500).json({ message: error.message });

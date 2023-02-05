@@ -117,7 +117,7 @@ function Admin({ orders, products }) {
             </thead>
             <tbody>
               {pizzaList?.map((product) => (
-                <tr key={product?._id}>
+                <tr key={product?._id} className="shadow-md hover:shadow-lg">
                   <td>
                     <Image
                       src={product?.ProductImg}
@@ -157,7 +157,7 @@ function Admin({ orders, products }) {
           <h2 className="text-lg md:text-3xl border-b pb-2 mx-2 font-semibold">
             Orders
           </h2>
-          <table className="w-full border-separate border-spacing-2  text-center mt-3 table-fixed">
+          <table className="w-full border-separate border-spacing-2   text-center mt-3 table-fixed">
             <thead>
               <tr>
                 <th>ID</th>
@@ -170,7 +170,7 @@ function Admin({ orders, products }) {
             </thead>
             <tbody>
               {orderList?.map((order, index) => (
-                <tr key={index}>
+                <tr key={index} className="shadow-md hover:shadow-lg">
                   <td>{order?._id.slice(0, 7).concat("...")}</td>
                   <td>{order?.customer}</td>
                   <td>${order?.total}</td>
@@ -185,9 +185,10 @@ function Admin({ orders, products }) {
                   <td className="space-x-2 text-xs md:text-base">
                     <button
                       onClick={() => handleStatus(order?._id)}
-                      className="bg-blue-300 cursor-pointer shadow-md hover:bg-blue-200  whitespace-nowrap p-1 md:px-2 md:py-1 rounded-lg"
+                      disabled={order?.status === 2}
+                      className="bg-blue-300 disabled:cursor-not-allowed cursor-pointer shadow-md hover:bg-blue-200  whitespace-nowrap p-1 md:px-2 md:py-1 rounded-lg"
                     >
-                      Next Stage
+                      {order?.status === 2 ? "Delivered" : " Next Stage"}
                     </button>
                   </td>
                 </tr>
@@ -209,7 +210,7 @@ function Admin({ orders, products }) {
                 setAddModal(false);
                 setEditMode(false);
               }}
-              className="w-6 h-6 m-2 cursor-pointer"
+              className="w-6 h-6 m-2 cursor-pointer hover:text-red-500"
             />
           </div>
           {EditMode ? <AddProduct id={EditId} EditMode /> : <AddProduct />}

@@ -21,7 +21,7 @@ function PizzaCard({ pizza }) {
 
       <h3 className="text-lg font-bold text-red-600">{pizza?.title}</h3>
 
-      <p className="text-[#666666] text-lg">{pizza?.price[0]}</p>
+      <p className="text-[#666666] text-lg">${pizza?.price[0]}</p>
 
       <p className="text-center text-gray-500">{pizza?.description}</p>
     </div>

@@ -62,14 +62,14 @@ function Orders({ order }) {
         </div>
 
         {/* right */}
-        <div className=" bg-white shadow-md space-y-5  p-6 font-serif rounded-md">
+        {/* <div className=" bg-white shadow-md space-y-5  p-6 font-serif rounded-md">
           <h3 className="text-xl font-semibold whitespace-nowrap">
             Subtotal -- <span className="text-red-500">${order?.total}</span>
           </h3>
           <button className="w-full rounded-lg hover:bg-green-300 active:bg-green-200 p-2 shadow-md hover:shadow-lg bg-green-400">
             PAID
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );
