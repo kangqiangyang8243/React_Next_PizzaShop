@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 
 function Orders({ order }) {
   const router = useRouter();
-  console.log(order);
+  // console.log(order);
 
   return (
     <div className=" w-full bg-gray-200 font-serif">

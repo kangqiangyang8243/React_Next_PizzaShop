@@ -11,7 +11,7 @@ function Products({ pizzas }) {
         </h1>
         <div className="grid sm:grid-cols-2 p-4 md:grid-cols-3 lg:grid-cols-4 gap-5 w-full">
           {pizzas.map((pizza) => (
-            <PizzaCard pizza={pizza} />
+            <PizzaCard pizza={pizza} key={pizza._id} />
           ))}
         </div>
       </div>
