@@ -2,6 +2,18 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+Feature:
+  - Backend Use MongoDB & NodeJS to Host Data
+  - User can select Pizza with Toppings, Quantity, Size and based on different Conditions to show different Price
+  - User can Browser the Shopping Cart
+    - User can delete the product what they don't need
+  - User can Pay with Cash or PayPal
+  - Fully Responsive Page
+  - Admin Page only certain userName and Password then can Sign In
+    - Use Cookies to set up the Login expired time
+  - Admin User can Create, Update, Delete the products
+  - Admin User can Host the Order details and process to next Stage (preparing, on the way, Delivered)
+
 First, run the development server:
 
 ```bash
